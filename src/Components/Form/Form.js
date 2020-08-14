@@ -34,7 +34,6 @@ addContact=(contact)=>{
   this.setState(prevState =>({contacts:[...prevState.contacts,contact]}))
 }
 
-
 getInfo=()=>{
   const { contacts, filter } = this.state;
   if(filter){
