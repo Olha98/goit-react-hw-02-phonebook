@@ -3,7 +3,6 @@ import style from './FillterForm.module.css'
 import PropTypes from 'prop-types';
 
 const FillterForm=({filter, onChange})=>{
-  
 return(
   <>
     <h2>Contacts</h2>
