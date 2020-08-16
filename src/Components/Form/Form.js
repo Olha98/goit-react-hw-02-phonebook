@@ -15,6 +15,23 @@ export default class App extends Component {
     filter: ''
   }
 
+  componentDidMount(){
+    const localContacts = localStorage.getItem("contacts")
+// console.log(localContacts)
+    if(localContacts){
+      this.setState({contacts:[...JSON.parse(localContacts)]})
+      console.log(this.state)
+  }
+}
+
+  componentDidUpdate(prevState, prevProps) {
+   
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
+    }
+
+  }
+
   handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -28,6 +45,7 @@ export default class App extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { name, number } = this.state;
+    console.log(this.state)
     this.addContact({ id: uuidv4(), name, number })
     this.setState({ name: '', number: '', filter: '' })
   }
@@ -57,7 +75,7 @@ export default class App extends Component {
     const { name, number, filter } = this.state;
     return (
       <>
-      <div className={style.cat}></div>
+        <div className={style.cat}></div>
         <form onSubmit={this.handleSubmit} className={style.formContainer}>
           <h2>Phonebook</h2>
           <ContactForm handleChange={this.handleChange} name={name} number={number} />
