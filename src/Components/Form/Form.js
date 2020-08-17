@@ -7,6 +7,7 @@ import ContactForm from './ContactForm/ContactForm';
 
 
 
+
 export default class App extends Component {
   state = {
     contacts: [],
@@ -14,22 +15,19 @@ export default class App extends Component {
     number: '',
     filter: ''
   }
-
+  
   componentDidMount(){
-    const localContacts = localStorage.getItem("contacts")
-// console.log(localContacts)
-    if(localContacts){
-      this.setState({contacts:[...JSON.parse(localContacts)]})
-      console.log(this.state)
+    const localdata = localStorage.getItem("contacts")
+    if(localdata){
+      this.setState({contacts: JSON.parse(localdata)})
+    }
   }
-}
 
   componentDidUpdate(prevState, prevProps) {
-   
     if (prevState.contacts !== this.state.contacts) {
       localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
     }
-
+    console.log(this.state)
   }
 
   handleChange = (e) => {
@@ -44,7 +42,7 @@ export default class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { name, number } = this.state;
+    const { name, number } = this.state; 
     console.log(this.state)
     this.addContact({ id: uuidv4(), name, number })
     this.setState({ name: '', number: '', filter: '' })
