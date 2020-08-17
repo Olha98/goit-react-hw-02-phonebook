@@ -7,12 +7,28 @@ import ContactForm from './ContactForm/ContactForm';
 
 
 
+
 export default class App extends Component {
   state = {
     contacts: [],
     name: '',
     number: '',
     filter: ''
+  }
+  
+  componentDidMount(){
+    const localdata = localStorage.getItem("contacts")
+    if(localdata){
+      this.setState({contacts: JSON.parse(localdata)})
+    }
+  }
+
+  componentDidUpdate(prevState, prevProps) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
+      
+    }
+    console.log(this.state)
   }
 
   handleChange = (e) => {
@@ -27,7 +43,8 @@ export default class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { name, number } = this.state;
+    const { name, number } = this.state; 
+    console.log(this.state)
     this.addContact({ id: uuidv4(), name, number })
     this.setState({ name: '', number: '', filter: '' })
   }
@@ -57,7 +74,7 @@ export default class App extends Component {
     const { name, number, filter } = this.state;
     return (
       <>
-      <div className={style.cat}></div>
+        <div className={style.cat}></div>
         <form onSubmit={this.handleSubmit} className={style.formContainer}>
           <h2>Phonebook</h2>
           <ContactForm handleChange={this.handleChange} name={name} number={number} />
